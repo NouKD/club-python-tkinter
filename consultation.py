@@ -4,7 +4,7 @@
 import tkinter as tk
 import time as tm
 #----------------------|
-from database import DataBase
+from database import DataBase, verify
 
 
 FONT = "Arial 14 bold"
@@ -65,25 +65,15 @@ class Consultation(tk.Toplevel):
         self.champs_list = [self.champ_taille, self.champ_temp, self.champ_grpsang]
 
     def continuer(self):
-        all_is_valide = True
-        for e in self.champs_list:
-            if len(e.get().strip()) < 1:
-                e.config(bg="red")
-                all_is_valide = False
-            else:
-                e.config(bg="#eee")
-
+        all_is_valide = verify(self.champs_list)
         if all_is_valide:
             date_time = tm.strftime("%d/%m/%Y %H:%M:%S")
-            values = (
-                    self.id_patient, self.id_medecin, date_time, self.champ_taille.get(),
-                    self.champ_temp.get(), self.champ_grpsang.get(),
-                    self.champ_diagn.get(index1="1.0", index2="end")
-                )
+
+            values = tuple([self.id_patient, self.id_medecin, date_time] + [value.get().strip() for value in self.champs_list] + [self.champ_diagn.get(index1="1.0", index2="end")])
             self.mydb.setConsultation(values)
-            info_consulte = self.mydb.getOne("consultation", "date", date_time)
-            print(type(info_consulte), info_consulte)
-            #Examen(consultation=info_consulte[0], destroyThis=self)
+            info = self.mydb.getOne("consultation", "date", date_time)
+ 
+            #Examen(consultation=info[0], destroyThis=self)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-#                     RECOMMANDATIONS
+#                                RECOMMANDATIONS
 #________________________________________________________________________________________________________________
 #  [IMPORTANT] Pardonnez modifier ce fichier avec précaution pour limiter les erreur dans le programme [IMPORTANT]                                            |
 #  [IMPORTANT] Pour les propriétés setter le paramètre "values" doit être un tuple et l'ordre des différents champs doit être respecte [IMPORTANT]|
@@ -18,6 +18,18 @@
 import sqlite3 as sq3
 
 
+def verify(liste):
+    all_is_valide = True
+    for e in liste:
+        if len(e.get().strip()) < 1:
+            e.config(bg="red")
+            e.master.bell()
+            all_is_valide = False
+        else:
+            e.config(bg="#fff")
+    return all_is_valide
+
+
 class DataBase():
     def __init__(self):
         fichierDonnees = "database.sq3"
@@ -26,7 +38,7 @@ class DataBase():
 
         # Si [ la base de donnees existe deja une exception sera leve]
         try:
-            self.cursor.execute("CREATE TABLE partient(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, prenom TEXT, contact TEXT, adresse TEXT, referent TEXT)")
+            self.cursor.execute("CREATE TABLE patient(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, prenom TEXT, contact TEXT, adresse TEXT, referent TEXT, date TEXT, service INTEGER)")
             self.connector.commit()
             self.cursor.execute("CREATE TABLE compte(id INTEGER PRIMARY KEY AUTOINCREMENT, patient_id INTEGER, date TEXT, actif INTEGER)")
             self.connector.commit()
@@ -53,8 +65,8 @@ class DataBase():
         self.setService(values)
 
 
-    def setPartient(self, values):
-        self.cursor.execute("INSERT INTO partient(nom, prenom, contact, adresse, referent) VALUES(?,?,?,?,?)", values)
+    def setPatient(self, values):
+        self.cursor.execute("INSERT INTO patient(nom, prenom, contact, adresse, referent, date, service) VALUES(?,?,?,?,?,?,?)", values)
         self.connector.commit()
 
 
@@ -89,17 +101,33 @@ class DataBase():
         self.connector.commit()
 
 
-    def getOne(self, champ, by, indice):
+    def getOne(self, table, champ, indice):
         '''
-        Le paramettre champ doit etre parmit la liste :["partient", "compte", "medecin", "consultation", "examen", "ordonance"]
-        by ==> element de la recherche
+        Le paramettre table doit etre parmit la liste :["patient", "compte", "medecin", "consultation", "examen", "ordonance"]
+        champ ==> element de la recherche
         indice ==> l'element a quoi doit correspondre la recherche
         ex:
-            patient_id = 1
-            user = getOne("patient", "id", patient_id)
+            patient_name = 1
+            user = getOne("patient", "nom", patient_name)
             print(user)
             [Vas retourner le patient dont l'identifiant est egale a 1]
         ''' 
-        query = "SELECT * FROM {0} WHERE {1}='{2}'".format(champ, by, indice)
+        query = "SELECT * FROM {0} WHERE {1}='{2}'".format(table, champ, indice)
         self.cursor.execute(query)
         return self.cursor.fetchone()
+
+
+    def getOneById(self, table, idt):
+        query = "SELECT * FROM {0} WHERE id={1}".format(table, idt)
+        self.cursor.execute(query)
+        return self.cursor.fetchone()
+
+    def getAll(self, table):
+        query = "SELECT * FROM {0}".format(table)
+        self.cursor.execute(query)
+        return self.cursor.fetchall()
+
+    def updatePatientServiceId(self, service_id, patient_id):
+        query = "UPDATE patient SET service={0} WHERE id={1}".format(service_id, patient_id)
+        self.cursor.execute(query)
+        self.connector.commit()
