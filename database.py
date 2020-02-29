@@ -40,7 +40,7 @@ class DataBase():
         try:
             self.cursor.execute("CREATE TABLE patient(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, prenom TEXT, contact TEXT, adresse TEXT, referent TEXT, date TEXT, service INTEGER)")
             self.connector.commit()
-            self.cursor.execute("CREATE TABLE compte(id INTEGER PRIMARY KEY AUTOINCREMENT, patient_id INTEGER, date TEXT, actif INTEGER)")
+            self.cursor.execute("CREATE TABLE compte(id INTEGER PRIMARY KEY AUTOINCREMENT, numero_compte INTEGER, patient_id INTEGER, date TEXT, actif INTEGER)")
             self.connector.commit()
             self.cursor.execute("CREATE TABLE service(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, description TEXT, batiment TEXT)")
             self.connector.commit()
@@ -71,7 +71,7 @@ class DataBase():
 
 
     def setCompte(self, values):
-        self.cursor.execute("INSERT INTO compte(patient_id, date, actif) VALUES(?,?,?)", values)
+        self.cursor.execute("INSERT INTO compte(numero_compte, patient_id, date, actif) VALUES(?,?,?,?)", values)
         self.connector.commit()
 
 
@@ -129,5 +129,10 @@ class DataBase():
 
     def updatePatientServiceId(self, service_id, patient_id):
         query = "UPDATE patient SET service={0} WHERE id={1}".format(service_id, patient_id)
+        self.cursor.execute(query)
+        self.connector.commit()
+
+    def updateActive(self, patient_id, active=1):
+        query = "UPDATE patient SET active={0} WHERE id={1}".format(patient_id, active)
         self.cursor.execute(query)
         self.connector.commit()
