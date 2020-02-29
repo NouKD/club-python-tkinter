@@ -131,3 +131,8 @@ class DataBase():
         query = "UPDATE patient SET service={0} WHERE id={1}".format(service_id, patient_id)
         self.cursor.execute(query)
         self.connector.commit()
+
+    def updateActive(self, patient_id, active=1):
+        query = "UPDATE patient SET active={0} WHERE id={1}".format(patient_id, active)
+        self.cursor.execute(query)
+        self.connector.commit()
