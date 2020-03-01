@@ -1,4 +1,12 @@
 from tkinter import *  
+from database import *
+from tkinter.messagebox import *
+
+def callback():
+    if askyesno('Enregistrement', 'Êtes-vous sûr de vouloir faire ça?'):
+        showinfo('Action', 'votre requête à bien été enregistré',setMedecin)
+    else:
+        showinfo('Annuler', 'enregistrement annulé')
   
 fen1 = Tk()  
 fen1.title("Enregistrement Medecin")
@@ -13,7 +21,7 @@ prenom = Label(fen1, text = "Prenom").place(x = 500, y = 100)
 specialité = Label(fen1, text = "Spécialité").place(x = 500, y = 140) 
 adresse = Label(fen1, text = "Adresse").place(x = 500, y = 180)
 contact = Label(fen1, text = "Contact").place(x = 500, y = 220)  
-sbmitbtn = Button(fen1, text = "Submit",activebackground = "pink", activeforeground = "blue").place(x = 630, y = 260)  
+sbmitbtn = Button(fen1, text = "soumettre",activebackground = "pink", activeforeground = "blue", command=callback).place(x = 630, y = 260)  
   
   #-------création de saisir---------
 e1 = Entry(fen1).place(x = 600, y = 60)     
