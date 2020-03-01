@@ -1,47 +1,63 @@
 from tkinter import *
-import sys
+import sys, time
 from tkinter import ttk
 from  database import DataBase
 
 
 class MyWindow:
 
+    
     def __init__(self):
         FONT = "Arial 14 bold"
         self.root = Tk()
         self.root.title("gestion d'hopital")
-
+        self.mydb = DataBase()
 
         self.root.geometry("1700x600")
         self.root.minsize(width=700, height=500)
 
-        #fonction
+        #fonctions  liée a l'interaction avec la base de données
+        #fonction d'insertion dans la base de données 
+        # NB:  j'utilise la fonction d'Elysée setPatient(values) 
         def insert_db():
-            self.mydb = DataBase()
-            values = (entry_nom.get(), entry_prenom.get(), entry_age.get(), entry_contact.get(), entry_address.get(), entry_reference.get())
-
+            
+            date = time.strftime("%d-%m-%y  %H:%M")
+            values = (entry_nom.get(), entry_prenom.get(), entry_age.get(), entry_contact.get(), entry_address.get(), entry_reference.get(), date)
+            
             for i in values:
                 if i== '':
-                    print("Entry  couldn't be empty")
+                    print("Entry  couldn't be empty")   
                     validate = False
                 else:
                     validate = True
             if type(values[2]) == 'str':
                 print("Veuillez entrer un nombre svp")
                 validate = False
-
+            
             if validate == True:
                 try:
-                    print(dir(self.mydb.setPatient))
+                    self.mydb.setPatient(values)
+                    print("Bien enregistré")
                 except Exception as e:
                     print(e)
+        # fonction de recuperation de donnnées dans la base de données 
+        # NB:  j'utilise les fonction d'Elysée getOneById(table, idt) 
+        def fetch_id(*args):
+            idt = entry_cree.get()
+            try:
+                if idt.isdigit:
+                    idt = int(idt)
+                    id_patient_existant = self.mydb.getOneById("patient", idt)
+                    label_id_var.set(f"Bienvenue {id_patient_existant[1] + id_patient_existant[2]} nous vous connectons a la base de données")
+            except TypeError:
+                label_id_var.set(("Cet id ne correspond à aucun patient veuillez vous inscrit si vous ne l'êtes pas"))
 
 
         #fonction service
-        def services():
+        def services_desc():
             def service_desc(*args):
-                var_description.set(self.combobox_service.get())
-                print(self.combobox_service.g )
+                var_description.set(self.combobox_service.current())
+                print(self.combobox_service.current() )
 
             service_description = {
                 "churigie": """ Technique medicale avec intervention physique sur les tissu """,
@@ -75,6 +91,7 @@ class MyWindow:
 
             self.combobox_service = ttk.Combobox(self.frame_service)
             self.combobox_service['values'] = service_description.keys()
+            print(self.combobox_service.current())
             self.combobox_service.pack(pady=5)
 
             self.batiment = Label(self.frame_service,text="batiment",bd=5, bg="powderblue", font=FONT,width=20)
@@ -88,9 +105,9 @@ class MyWindow:
             self.label_service.pack(pady=5)
 
             var_description = StringVar()
-            var_description.trace_add("write", service_desc)
+            var_description.trace_add("write", services_desc)
             self.desc = Message(self.frame_service, textvariable=var_description)
-            self.desc.grid(row=3, column=0,pady=5)
+            self.desc.pack()
 
 
         #self.menu
@@ -111,7 +128,7 @@ class MyWindow:
 
         self.service = Menu(self.menu, tearoff=0)
         #self.menu self.service
-        self.menu.add_command(label="service",  command=services)
+        self.menu.add_command(label="service",  command=services_desc)
 
         self.medecin = Menu(self.menu,tearoff=0)
         #self.menu self.medecin
@@ -183,9 +200,12 @@ class MyWindow:
 
         #button
 
-        #button_cree
+        #button_id
         entry_cree =Entry(self.frame_account, text="compte", font=FONT, relief="flat",bg="#eee", fg="black")
-        button_ok =Button(self.frame_account, text="OK",font=FONT, relief="flat", bd=5, bg="#eee", width=10)
+        label_id_var = StringVar()
+        label_id_var.trace("w", fetch_id)
+        label_id = Message(self.frame_account, textvariable = label_id_var , fg="#000", font=('', 14))
+        button_ok =Button(self.frame_account, text="OK", command = fetch_id ,font=FONT, relief="flat", bd=5, bg="#eee", width=10)
 
 
 
@@ -219,6 +239,7 @@ class MyWindow:
 
         entry_cree.grid(row=1, column=1, sticky="nsew", padx=10, pady=5)
         button_ok.grid(row=2, column=1, sticky="nsew", padx=10, pady=5)
+        label_id.grid(row=3, column=1, sticky="nsew", padx=10, pady=5)
 
 
 

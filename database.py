@@ -38,7 +38,7 @@ class DataBase():
 
         # Si [ la base de donnees existe deja une exception sera leve]
         try:
-            self.cursor.execute("CREATE TABLE patient(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, prenom TEXT, age TEXT, contact TEXT, adresse TEXT, referent TEXT, date TEXT")
+            self.cursor.execute("CREATE TABLE patient(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, prenom TEXT, age TEXT, contact TEXT, adresse TEXT, referent TEXT, date TEXT)")
             self.connector.commit()
             self.cursor.execute("CREATE TABLE compte(id INTEGER PRIMARY KEY AUTOINCREMENT, numero_compte INTEGER, patient_id INTEGER, date TEXT, actif INTEGER)")
             self.connector.commit()
@@ -52,8 +52,9 @@ class DataBase():
             self.connector.commit()
             self.cursor.execute("CREATE TABLE ordonance(id INTEGER PRIMARY KEY AUTOINCREMENT, consultation_id INTEGER, content TEXT)")
             self.connector.commit()
-        except sq3.OperationalError:
-            pass
+        except sq3.OperationalError as e:
+            print(e)
+            
         # Si non [La base de donnee n'existe pas donc elle est creer et les differents champs aussi]
         else:
             # Par consequent on enregistre certaines valeur par defaut utile
@@ -137,6 +138,9 @@ class DataBase():
         self.cursor.execute(query)
         self.connector.commit()
 
+test = DataBase()
 
 
 
+if __name__:
+    print("good")
