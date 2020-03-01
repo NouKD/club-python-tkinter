@@ -38,7 +38,7 @@ class DataBase():
 
         # Si [ la base de donnees existe deja une exception sera leve]
         try:
-            self.cursor.execute("CREATE TABLE patient(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, prenom TEXT, contact TEXT, adresse TEXT, referent TEXT, date TEXT, service INTEGER)")
+            self.cursor.execute("CREATE TABLE patient(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, prenom TEXT, age TEXT, contact TEXT, adresse TEXT, referent TEXT, date TEXT")
             self.connector.commit()
             self.cursor.execute("CREATE TABLE compte(id INTEGER PRIMARY KEY AUTOINCREMENT, numero_compte INTEGER, patient_id INTEGER, date TEXT, actif INTEGER)")
             self.connector.commit()
@@ -66,7 +66,7 @@ class DataBase():
 
 
     def setPatient(self, values):
-        self.cursor.execute("INSERT INTO patient(nom, prenom, contact, adresse, referent, date, service) VALUES(?,?,?,?,?,?,?)", values)
+        self.cursor.execute("INSERT INTO patient(nom, prenom, age, contact, adresse, referent, date) VALUES(?,?,?,?,?,?,?)", values)
         self.connector.commit()
 
 
@@ -136,3 +136,7 @@ class DataBase():
         query = "UPDATE patient SET active={0} WHERE id={1}".format(patient_id, active)
         self.cursor.execute(query)
         self.connector.commit()
+
+
+
+
