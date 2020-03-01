@@ -4,7 +4,7 @@ from tkinter.messagebox import *
 
 def callback():
     if askyesno('Enregistrement', 'Êtes-vous sûr de vouloir faire ça?'):
-        showinfo('Action', 'votre requête à bien été enregistré',setMedecin)
+        showinfo(setMedecin)
     else:
         showinfo('Annuler', 'enregistrement annulé')
   
