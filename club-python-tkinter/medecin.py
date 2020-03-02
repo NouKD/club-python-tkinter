@@ -22,7 +22,7 @@ def insert_db():
       except Exception as e:
         print(e)
                       
-def callback():
+#def callback():
     if askyesno('Enregistrement', 'Êtes-vous sûr de vouloir faire ça?'):
         showinfo('..')
     else:
