@@ -1,46 +1,51 @@
-from tkinter import *
-app =Tk()
-app.geometry("1700x1000")
-app.config(bg="#eee")
-app.title("ordonnance")
+#! /usr/bin/env python3
+# coding: utf-8
 
-frame1 = Frame(app,bg="#eee")
-frame1.pack(pady=50)
-
-# numero ordonnance
-label1 = Label(frame1, text="n° de consultation", font="Arial 18 bold",bg="#fff",width=26)
-label1.pack()
-
-entry_nber = IntVar()
-entry1 = Entry(frame1,textvariable=entry_nber, font="Arial 15 bold",bg="#eee", bd=2,width=30)
-entry1.pack()
+import tkinter as tk
+import time as tm
+#----------------------|
+from database import DataBase
 
 
-#médicaments
-label2 = Label(frame1, text="Médicaments", font="Arial 18 bold",bg="#fff",width=26)
-label2.pack()
-
-entry_md = StringVar()
-entry2 = Entry(frame1,textvariable=entry_md, font="Arial 15 bold",bg="#eee", bd=2,width=30)
-entry2.pack()
-
-#ordonnance
-label3 = Label(frame1, text="ordonnance", font="Arial 18 bold",bg="#fff",width=26)
-label3.pack()
-
-entry_ord = StringVar()
-entry3 = Entry(frame1,textvariable=entry_ord, font="Arial 15 bold",bg="#eee", bd=2,width=30)
-entry3.pack()
+FONT = "Arial 14 bold"
 
 
-button = Button(frame1,text="envoyer", font="Arial 15 bold",bg="#eee", bd=2,width=15)
-button.pack()
+class Ordonnance(tk.Toplevel):
+    def __init__(self, consultation=0, destroyThis=None):
+        tk.Toplevel.__init__(self)
+        x, y = int((self.winfo_screenwidth()/2)-291), int((self.winfo_screenheight()/2)-145)
+        self.geometry("582x290+{0}+{1}".format(x, y))
+        self.minsize(300, 290)
+        self.title("* Ordonnance *")
+
+        if destroyThis: destroyThis.destroy()
+        
+        self.mydb = DataBase()
+        
+        self.consultation = consultation
+
+
+        lb = tk.Label(self, text="Prescriptions", font=FONT, bg="#eee", fg="#222")
+        lb.pack(expand=1, fill="x", ipady=10, padx=10)
+        self.prescription = tk.Text(self, font="Arial 14 normal", relief="flat", bd=5, height=8, bg="#fff")
+        self.prescription.pack(expand=1, fill="both", padx=10, pady="0 10")
+
+
+        btn2 = tk.Button(self, text="Terminer", font=FONT, relief="flat", command=self.terminer)
+        btn2.pack(expand=1, ipadx=25, ipady=5, pady="0 10")
+
+
+    def terminer(self):
+        content = self.prescription.get("1.0", "end").strip()
+        date = tm.strftime("%d/%m/%Y %H:%M:%S")
+        values = (self.consultation, content, date)
+        self.mydb.setOrdonance(values)
+        
+        self.destroy()
 
 
 
 
 
-
-
-
-app.mainloop()
+if __name__ == "__main__":
+    Ordonnance().mainloop()
