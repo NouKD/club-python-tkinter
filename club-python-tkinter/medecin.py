@@ -14,8 +14,8 @@ def insert_db():
     elif i.strip().isdigit():
       print("veuillez ecrire votre nom")
     else:
-      validation = True
-    if validation == True:
+      validate = True
+    if validate == True:
       try:
         mydb.setMedecin(values)
         print("bien enregistré")
