@@ -64,7 +64,6 @@ class Examen(tk.Toplevel):
                 e.config(bg="#eee")
 
         if all_is_valide:
-                   
             values = (
                     self.id_consultation, self.champ_type.get(),
                     self.champ_resul.get(index1="1.0", index2="end")
