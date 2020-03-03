@@ -51,6 +51,9 @@ class MyWindow:
                     label_id_var.set(f"Bienvenue {id_patient_existant[1] + id_patient_existant[2]} nous vous connectons a la base de données")
             except TypeError:
                 label_id_var.set(("Cet id ne correspond à aucun patient veuillez vous inscrit si vous ne l'êtes pas"))
+            except ValueError:
+                label_id_var.set(("Identifiant requit !!!"))
+                
 
 
         #fonction service
