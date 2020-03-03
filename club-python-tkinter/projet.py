@@ -14,7 +14,7 @@ class Examen(tk.Toplevel):
     def __init__(self, id_consultation=None):
         tk.Toplevel.__init__(self)
         x, y = int((self.winfo_screenwidth()/2)-279.5), int((self.winfo_screenheight()/2)-152.5)
-        self.geometry("559x305+{0}+{1}".format(x, y))
+        self.geometry("1000x500+{0}+{1}".format(x, y))
         self.resizable(0,0)
         self.title("* Examen *")
         
@@ -26,22 +26,22 @@ class Examen(tk.Toplevel):
         frame = tk.Frame(self)
         frame.pack(expand=1, fill="both", padx=5, pady=5)
 
-        frame_left = tk.Frame(frame)
-        frame_left.pack(expand=1, fill="y", side="left", padx=5, pady=5, ipadx=5)
-        frame_right = tk.Frame(frame)
-        frame_right.pack(expand=1, fill="y", side="right", padx=5, pady=5, ipadx=5)
+        # frame_left = tk.Frame(frame)
+        # frame_left.pack(expand=1, fill="y", side="left", padx=5, pady=5, ipadx=5)
+        # frame_right = tk.Frame(frame)
+        # frame_right.pack(expand=1, fill="y", side="right", padx=5, pady=5, ipadx=5)
         
-        lb = tk.Label(frame_left, text="Type", font=FONT, bg="#fff", fg="gray75")
-        lb.pack(expand=1, fill="x", ipadx=5, ipady=5)
+        lb = tk.Label(frame, text="Type", font=FONT, bg="#fff", fg="gray75")
+        lb.pack(expand=1, fill="x")
         self.var_type = tk.StringVar()
-        self.champ_type = tk.Entry(frame_left, font=FONT, relief="flat", textvariable=self.var_type, bg="#eee")
+        self.champ_type = tk.Entry(frame, font=FONT, relief="flat", textvariable=self.var_type, bg="#eee")
         self.champ_type.pack(expand=1, fill="x")
 
         
 
-        lb = tk.Label(frame_right, text="Resultat", font=FONT, bg="#fff", fg="gray75")
+        lb = tk.Label(frame, text="Resultat", font=FONT, bg="#fff", fg="gray75")
         lb.pack(expand=1, fill="x", ipadx=5, ipady=5)
-        self.champ_resul = tk.Text(frame_right, font=FONT, relief="flat", bd=5, height=9, bg="#eee")
+        self.champ_resul = tk.Text(frame, font=FONT, relief="flat", bd=5, height=9, bg="#eee")
         self.champ_resul.pack(expand=1, fill="both")
         
         btn_frame = tk.Frame(self)
@@ -64,7 +64,6 @@ class Examen(tk.Toplevel):
                 e.config(bg="#eee")
 
         if all_is_valide:
-                   
             values = (
                     self.id_consultation, self.champ_type.get(),
                     self.champ_resul.get(index1="1.0", index2="end")
