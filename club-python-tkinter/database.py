@@ -64,7 +64,8 @@ class DataBase():
     def default(self):
         values = ("Generaliste", "S'occupe des cas generaux sans specificite", "Batiment A")
         self.setService(values)
-
+        values = ("Pediatrie", "S'occupe des enfants", "Batiment E")
+        self.setService(values)
 
     def setPatient(self, values):
         self.cursor.execute("INSERT INTO patient(nom, prenom, age, contact, adresse, referent, date) VALUES(?,?,?,?,?,?,?)", values)
@@ -137,10 +138,3 @@ class DataBase():
         query = "UPDATE patient SET active={0} WHERE id={1}".format(patient_id, active)
         self.cursor.execute(query)
         self.connector.commit()
-
-test = DataBase()
-
-
-
-if __name__:
-    print("good")

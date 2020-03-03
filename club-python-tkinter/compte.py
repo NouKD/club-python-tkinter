@@ -9,15 +9,18 @@ from database import DataBase, verify
 fenetre = Tk()
 #presolalise la fenetre 
 fenetre.title("compte")
-fenetre.geometry("1080x720")
-fenetre.minsize(480,360)
-#appel de la bd
+fenetre.geometry("437x420")
+fenetre.minsize(437,420)
+fenetre.resizable(0, 0)
+
 mydb = DataBase()
 fenetre.iconbitmap("python.ico")
 fenetre.config(background='#bdebdf')
 
 #creee la frame principal
 fram= Frame(fenetre, bg='#bdebdf', bd=1, relief=SUNKEN)
+#ajouter
+fram.pack(expand=1, fill="both", padx=5, pady=5, ipadx=5, ipady=5)
 
 #ajoute d'un fiste test
 Label_title = Label (fram, text="numero_compte", font=("arial", 40),bg="#bdebdf", fg='#1b14f5')
@@ -40,15 +43,17 @@ date_entry.pack()
 Label_subtitle = Label (fram, text="actif?", font=("courrier", 30),bg="#bdebdf", fg='#1b14f5')
 Label_subtitle.pack()
 var = IntVar()
-Radiobutton(fram, variable=var, font="Arial 14 bold", anchor="w", text="oui", value=1).pack(expand=1, fill="both", padx=5, pady=5)
-Radiobutton(fram, variable=var, font="Arial 14 bold", anchor="w", text="non", value=0).pack(expand=1, fill="both", padx=5, pady=5)
+
+cadrerad = Frame(fram)
+cadrerad.pack(expand=1, padx=20)
+Radiobutton(cadrerad, variable=var, font="Arial 14 bold", anchor="w", text="oui", value=1).pack(padx=5, pady=5, side="left")
+Radiobutton(cadrerad, variable=var, font="Arial 14 bold", anchor="w", text="non", value=0).pack(padx=5, pady=5, side="left")
 
 #ajoute un bouton
 boutton = Button(fram, text="entre", font=("cursive",25), bg='white', fg='#ec062f')
-boutton.pack(pady=25, fill=X)
+boutton.pack(fill=X)
 
-#ajouter
-fram.pack(expand=1, fill="both", padx=5, pady=5, ipadx=5, ipady=5)
+
 
 #affichage de la fenetre
 fenetre.mainloop()
