@@ -12,7 +12,7 @@ class MyWindow:
         self.root = Tk()
         self.root.title("gestion d'hopital")
         self.mydb = DataBase()
-
+ 
         self.root.geometry("1700x600")
         self.root.minsize(width=700, height=500)
 
