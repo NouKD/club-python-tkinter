@@ -2,11 +2,9 @@ from tkinter import *
 import sys
 import time
 from tkinter import ttk
-from database import DataBase
+from database import DataBase, verify
 from liste import Lister
 from medecin import new_medecin, attribuerMedecin
-
-FONT = "Arial 14 bold"
 
 FONT = "Arial 14 bold"
 
@@ -81,7 +79,7 @@ class MyWindow:
         self.label_id_var.trace("w", self.fetch_id)
         label_id = Label(self.frame_account, textvariable=self.label_id_var,
                          fg="#000", font=('', 14), wraplength=200)
-        # print(label_id.config())
+
         button_ok = Button(self.frame_account, text="OK", command=self.fetch_id,
                            font=FONT, relief="flat", bd=5, bg="#eee", width=10)
 
@@ -114,7 +112,7 @@ class MyWindow:
         self.entry_cree.grid(row=1, column=1, sticky="nsew", padx=10, pady=5)
         button_ok.grid(row=2, column=1, sticky="nsew", padx=10, pady=5)
         label_id.grid(row=3, column=1, sticky="nsew", padx=10, pady=5)
-
+        self.services_desc(5)
         self.menu()
         self.root.mainloop()
 
@@ -140,17 +138,22 @@ class MyWindow:
             self.mydb.setPatient(values)
             for i in self.liste_entr:
                 i.delete("0", "end")
-            self.services_desc()
+
+            patient = self.mydb.getOne("patient", "date", date)
+            values = (patient[0], date, 1)
+            self.mydb.setCompte(values)
+            compte = self.mydb.getOne("compte", "date", date)
+            
+            self.services_desc(compte[0])
 
     def fetch_id(self, *args):
         idt = self.entry_cree.get()
         if idt.isdigit():
             id_patient_existant = self.mydb.getOneById("patient", idt)
-            print(id_patient_existant)
             if not id_patient_existant:
                 self.label_id_var.set("Erreur: Veuillez reverifiez votre identifiants !!!")
             else:
-                self.services_desc()
+                self.services_desc(idt)
         else:
             self.entry_cree["bg"] = "red"
             self.root.after(2000, lambda col="#fff": self.entry_cree.config(bg=col))
@@ -161,11 +164,11 @@ class MyWindow:
         self.batiment["text"] = liste[3]
         self.desc["text"] = liste[2]
 
-    def services_desc(self):
+    def services_desc(self, cmpt):
         self.nos_service = Toplevel(self.root)
         self.nos_service.title("nos services")
         x, y = int((self.root.winfo_screenwidth()/2) - 216), int((self.root.winfo_screenheight()/2)-127)
-        self.nos_service.geometry("432x254+{0}+{1}".format(x, y))
+        self.nos_service.geometry("432x280+{0}+{1}".format(x, y))
         self.nos_service.config(relief="flat", bd=5, bg="#eee")
         self.frame_service = Frame(
             self.nos_service, relief="flat", bd=5, bg="#888")
@@ -192,15 +195,23 @@ class MyWindow:
         self.batiment = Label(self.frame_service, text="",
                               bg="#fff", font=FONT2)
         self.batiment.pack(expand=1, fill="x", ipady=3, ipadx=3)
-
         label_service = Label(self.frame_service,
                               text="Description", bg="powderblue", font=FONT)
         label_service.pack(expand=1, fill="x", pady="15 0")
-
         self.desc = Label(self.frame_service, bg="#fff", font=FONT2)
         self.desc.pack(expand=1, fill="x", pady="0 5", ipady=3, ipadx=3)
-
+        btn = Button(self.frame_service, text="Continuer", font=FONT, relief="flat", command=lambda a=cmpt, b=self.nos_service: self.continuer(cmpt, b))
+        btn.pack(ipady=5, ipadx=5)
         self.service_var.set(valeurs[0])
+
+
+    def continuer(self, comp, b):
+        choix = self.service_var.get()
+        liste = [item for item in self.services if choix in item][0]
+        service = liste[0]
+        attribuerMedecin(b, comp, service)
+
+        
 
     def menu(self):
         # Menu principale
@@ -209,6 +220,7 @@ class MyWindow:
         # Menu Ajouter
         menu_add = Menu(principale, tearoff=0)
         menu_add.add_command(label="Nouveau Medecin", command=new_medecin)
+        menu_add.add_command(label="Nouveau Service", command=AddService)
         principale.add_cascade(label="Ajouter", menu=menu_add)
 
         menu_lister = Menu(principale, tearoff=0)
@@ -221,9 +233,9 @@ class MyWindow:
 
 
 
-class AddService(tk.Toplevel):
+class AddService(Toplevel):
     def __init__(self):
-        tk.Toplevel.__init__(self)
+        Toplevel.__init__(self)
         self.title("Service")
         x, y = int((self.winfo_screenwidth()/2)-275), int((self.winfo_screenheight()/2)-120)
         self.geometry("550x240+{0}+{1}".format(x, y))
@@ -231,39 +243,39 @@ class AddService(tk.Toplevel):
         
         self.mydb = DataBase()
         
-        frm1 = tk.Frame(self)
+        frm1 = Frame(self)
         frm1.pack(expand=1, fill="both")
         
-        frm2 = tk.Frame(self)
+        frm2 = Frame(self)
         frm2.pack(expand=1, fill="both")
         
-        cadre1 = tk.Frame(frm1)
+        cadre1 = Frame(frm1)
         cadre1.pack(expand=1, fill="both", side="left", padx="5 0", pady=5, ipadx=5, ipady=5)
-        cadre2 = tk.Frame(frm1)
+        cadre2 = Frame(frm1)
         cadre2.pack(expand=1, fill="both", side="right", padx="0 5", pady=5, ipadx=5, ipady=5)
         
-        lb1 = tk.Label(cadre1, text="Nom: ",anchor="w", font=FONT, bg="#eee", fg="grey")
+        lb1 = Label(cadre1, text="Nom: ",anchor="w", font=FONT, bg="#eee", fg="grey")
         lb1.pack(expand=1, fill="both", padx=5, pady="5 0", ipady=5, ipadx=5)
-        self.nom = tk.Entry(cadre1, font=FONT, bg="#fff", fg="#000")
+        self.nom = Entry(cadre1, font=FONT, bg="#fff", fg="#000")
         self.nom.pack(expand=1, fill="both", padx=5, ipady=5, ipadx=5)
 
-        lb1 = tk.Label(cadre1, text="Batiment: ",anchor="w", font=FONT, bg="#eee", fg="grey")
+        lb1 = Label(cadre1, text="Batiment: ",anchor="w", font=FONT, bg="#eee", fg="grey")
         lb1.pack(expand=1, fill="both", padx=5, pady="5 0", ipady=5, ipadx=5)
-        self.batiment = tk.Entry(cadre1, font=FONT, bg="#fff", fg="#000")
+        self.batiment = Entry(cadre1, font=FONT, bg="#fff", fg="#000")
         self.batiment.pack(expand=1, fill="both", padx=5, ipady=5, ipadx=5)
 
-        lb = tk.Label(cadre2, text="Description:", font=FONT, bg="#eee", fg="grey")
+        lb = Label(cadre2, text="Description:", font=FONT, bg="#eee", fg="grey")
         lb.pack(expand=1, fill="both", ipady=5, padx=5, pady="5 0")
-        self.description = tk.Text(cadre2, font=FONT, relief="flat", height=5, bd=5, bg="#fff")
+        self.description = Text(cadre2, font=FONT, relief="flat", height=5, bd=5, bg="#fff")
         self.description.pack(expand=1, fill="both", padx=5)
 
-        btn_cadre = tk.Frame(frm2)
+        btn_cadre = Frame(frm2)
         btn_cadre.pack(expand=1, fill="both", ipadx=5, ipady=5)
 
-        btn = tk.Button(btn_cadre, text="Annuler", font=FONT, fg="grey", relief="flat", command=self.destroy)
+        btn = Button(btn_cadre, text="Annuler", font=FONT, fg="grey", relief="flat", command=self.destroy)
         btn.pack(expand=1, fill="both", side="left", padx=15, pady=15)
 
-        btn = tk.Button(btn_cadre, text="Save", font=FONT, fg="grey", relief="flat", command=self.saveService)
+        btn = Button(btn_cadre, text="Save", font=FONT, fg="grey", relief="flat", command=self.saveService)
         btn.pack(expand=1, fill="both", side="right", padx=15, pady=15)
 
         self.champs_list = [self.nom, self.batiment]

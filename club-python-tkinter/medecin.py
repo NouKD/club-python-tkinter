@@ -2,7 +2,7 @@
 from tkinter import *
 from tkinter.ttk import Combobox
 from database import *
-
+from consultation import Consultation
 
 def new_medecin():
 
@@ -53,7 +53,7 @@ def new_medecin():
                 ipady=5, padx=10, pady="3 2")
 
     sbmitbtn = Button(master, text="soumettre", activebackground="pink",
-                    activeforeground="blue", command=insert_db)
+                    activeforeground="blue", relief="flat", command=insert_db)
     sbmitbtn.grid(row=6, column=0, columnspan=2, ipadx=5, ipady=5, pady="3 2")
 
     # -------création de saisir---------
@@ -73,3 +73,10 @@ def new_medecin():
     e5.grid(row=5, column=1, sticky="ew", ipadx=5, ipady=5, pady="3 2", padx="0 10")
 
     master.mainloop()
+
+
+def attribuerMedecin(destroyThis, compte, service):
+    destroyThis.destroy()
+    mydb = DataBase()
+    medecin = mydb.getOneById("medecin", service, "specialite_id")
+    Consultation(compte, medecin[0])

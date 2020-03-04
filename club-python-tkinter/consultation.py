@@ -9,14 +9,6 @@ from examen import Examen
 
 FONT = "Arial 14 bold"
 
-
-def attribuerMedecin(destroyThis, compte, service):
-    destroyThis.destroy()
-    mydb = DataBase()
-    medecin = mydb.getOneById("medecin", service, "specialite_id")
-    Consultation(compte, medecin[0])
-
-
 class Consultation(tk.Toplevel):
     def __init__(self, id_patient=None, id_medecin=None):
         tk.Toplevel.__init__(self)
