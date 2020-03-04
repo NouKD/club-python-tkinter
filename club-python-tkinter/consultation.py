@@ -5,9 +5,16 @@ import tkinter as tk
 import time as tm
 #----------------------|
 from database import DataBase, verify
-
+from examen import Examen
 
 FONT = "Arial 14 bold"
+
+
+def attribuerMedecin(destroyThis, compte, service):
+    destroyThis.destroy()
+    mydb = DataBase()
+    medecin = mydb.getOneById("medecin", service, "specialite_id")
+    Consultation(compte, medecin[0])
 
 
 class Consultation(tk.Toplevel):
@@ -73,7 +80,7 @@ class Consultation(tk.Toplevel):
             self.mydb.setConsultation(values)
             info = self.mydb.getOne("consultation", "date", date_time)
  
-            #Examen(consultation=info[0], destroyThis=self)
+            Examen(consultation=info[0], date=date_time, destroyThis=self)
 
 
 if __name__ == "__main__":
