@@ -146,6 +146,7 @@ class MyWindow:
             
             self.services_desc(compte[0])
 
+
     def fetch_id(self, *args):
         idt = self.entry_cree.get()
         if idt.isdigit():

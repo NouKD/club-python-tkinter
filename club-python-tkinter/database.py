@@ -137,9 +137,22 @@ class DataBase():
         self.cursor.execute(query)
         return self.cursor.fetchall()
 
-    def updateService(self, pat_id, ser_id):
-        query = "UPDATE patient SET service={0} WHERE id={1}".format(ser_id, pat_id)
+    def updateService(self, bat, desc, nom):
+        query = 'UPDATE service SET batiment="{0}", description="{1}" WHERE nom="{2}"'.format(bat, desc, nom)
         self.cursor.execute(query)
+        self.connector.commit()
+
+    def updateMedecin(self, addr, cont, id):
+        query = 'UPDATE medecin SET adresse="{0}", contact="{1}" WHERE id={2}'.format(addr, cont, id)
+        self.cursor.execute(query)
+        self.connector.commit()
+
+    def deleteService(self, nom):
+        self.cursor.execute('DELETE FROM service WHERE nom="{}"'.format(nom,))
+        self.connector.commit()
+
+    def deleteMedecin(self, id):
+        self.cursor.execute('DELETE FROM medecin WHERE id={}'.format(id,))
         self.connector.commit()
 
     def listPatients(self):
