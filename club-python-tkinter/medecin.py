@@ -80,5 +80,3 @@ def attribuerMedecin(destroyThis, compte, service):
     mydb = DataBase()
     medecin = mydb.getOneById("medecin", service, "specialite_id")
     Consultation(compte, medecin[0])
-
-new_medecin()
