@@ -15,7 +15,8 @@ FONT = "Arial 14 bold"
 
 fenetre = Tk()
 
-fenetre.title("compte")
+fenetre.title("Acceille")
+
 fenetre.geometry("1080x720")
 fenetre.minsize(480,360)
 #fenetre.iconbitmap("python.ico")
