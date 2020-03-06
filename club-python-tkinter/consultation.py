@@ -31,35 +31,35 @@ class Consultation(Toplevel):
         frame_right = Frame(frame)
         frame_right.pack(expand=1, fill="y", side="right", padx=5, pady=5, ipadx=5)
         
-        lb = Label(frame_left, text="Taille", font=FONT, bg="#fff", fg="gray75")
+        lb = Label(frame_left, text="Taille", font=FONT, bg="#c7e0f7", fg="#05f")
         lb.pack(expand=1, fill="x", ipadx=5, ipady=5)
         self.var_taille = StringVar()
-        self.champ_taille = Entry(frame_left, font=FONT, relief="flat", textvariable=self.var_taille, bg="#eee")
+        self.champ_taille = Entry(frame_left, font=FONT, relief="sunken", textvariable=self.var_taille, bg="#eee")
         self.champ_taille.pack(expand=1, fill="x", ipadx=5, ipady=5)
 
-        lb = Label(frame_left, text="Temperature", font=FONT, bg="#fff", fg="gray75")
+        lb = Label(frame_left, text="Temperature", font=FONT, bg="#c7e0f7", fg="#05f")
         lb.pack(expand=1, fill="x", ipadx=5, ipady=5, pady="5 0")
         self.var_temp = StringVar()
         self.champ_temp = Spinbox(frame_left, font=FONT, relief="flat", textvariable=self.var_temp, bg="#eee",from_= 25 , to = 40)
         self.champ_temp.pack(expand=1, fill="x", ipadx=5, ipady=5)
 
-        lb = Label(frame_left, text="Groupe sanguin", font=FONT, bg="#fff", fg="gray75")
+        lb = Label(frame_left, text="Group sanguin", font=FONT, bg="#c7e0f7", fg="#05f")
         lb.pack(expand=1, fill="x", ipadx=5, ipady=5, pady="5 0")
         self.var_grpsang = StringVar()
-        self.champ_grpsang = Combobox(frame_left, textvariable=self.var_grpsang, state="readonly", font="Arial 16", values = ["A","A+","A-","B","B+","B-","AB","AB+","AB-","O","O+","O-"])
+        self.champ_grpsang = Entry(frame_left, font=FONT, relief="sunken", textvariable=self.var_grpsang, bg="#eee")
         self.champ_grpsang.pack(expand=1, fill="x", ipadx=5, ipady=5)
 
-        lb = Label(frame_right, text="Diagnostique", font=FONT, bg="#fff", fg="gray75")
+        lb = Label(frame_right, text="Diagnostique", font=FONT, bg="#c7e0f7", fg="#05f")
         lb.pack(expand=1, fill="x", ipadx=5, ipady=5)
-        self.champ_diagn = Text(frame_right, font=FONT, relief="flat", bd=5, height=9, bg="#eee")
+        self.champ_diagn = Text(frame_right, font=FONT, relief="sunken", bd=5, height=9, bg="#eee")
         self.champ_diagn.pack(expand=1, fill="both")
-        
+
         btn_frame = Frame(self)
         btn_frame.pack(expand=1, fill="both", padx=5, pady="0 5")
         
-        btn1 = Button(btn_frame, text="Annuler", font=FONT, relief="flat", command=self.destroy)
+        btn1 = Button(btn_frame, text="Annuler", font=FONT, relief="sunken", command=self.destroy)
         btn1.pack(expand=1, padx=5, ipadx=5, ipady=5, side="left")
-        btn2 = Button(btn_frame, text="Continuer", font=FONT, relief="flat", command=self.continuer)
+        btn2 = Button(btn_frame, text="Continuer", font=FONT, relief="sunken", command=self.continuer)
         btn2.pack(expand=1, padx=5, ipadx=5, ipady=5, side="right")
 
         self.champs_list = [self.champ_taille, self.champ_temp, self.champ_grpsang]
