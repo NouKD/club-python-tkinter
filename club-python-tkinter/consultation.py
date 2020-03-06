@@ -46,7 +46,7 @@ class Consultation(Toplevel):
         lb = Label(frame_left, text="Group sanguin", font=FONT, bg="#c7e0f7", fg="#05f")
         lb.pack(expand=1, fill="x", ipadx=5, ipady=5, pady="5 0")
         self.var_grpsang = StringVar()
-        self.champ_grpsang = Entry(frame_left, font=FONT, relief="sunken", textvariable=self.var_grpsang, bg="#eee")
+        self.champ_grpsang = Combobox(frame_left, font=FONT, textvariable=self.var_grpsang, values =["A","A+","A-","B","B+","B-","AB","AB+","AB-","O","O+","O-"])
         self.champ_grpsang.pack(expand=1, fill="x", ipadx=5, ipady=5)
 
         lb = Label(frame_right, text="Diagnostique", font=FONT, bg="#c7e0f7", fg="#05f")
