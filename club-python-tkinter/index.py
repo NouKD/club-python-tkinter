@@ -60,7 +60,7 @@ class MyWindow:
             self.frame_home,  font=FONT, relief="flat", bd=5, bg="#eee")
 
         # reference
-        label_reference = Label(self.frame_home, text="reference",
+        label_reference = Label(self.frame_home, text="En cas d'urgence",
                                 font=FONT, relief="flat", bg="powderblue", fg="black")
         self.entry_reference = Entry(
             self.frame_home,  font=FONT, relief="flat", bd=5, bg="#eee")

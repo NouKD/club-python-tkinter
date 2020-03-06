@@ -40,7 +40,7 @@ class Consultation(Toplevel):
         lb = Label(frame_left, text="Temperature", font=FONT, bg="#fff", fg="gray75")
         lb.pack(expand=1, fill="x", ipadx=5, ipady=5, pady="5 0")
         self.var_temp = StringVar()
-        self.champ_temp = Entry(frame_left, font=FONT, relief="flat", textvariable=self.var_temp, bg="#eee")
+        self.champ_temp = Spinbox(frame_left, font=FONT, relief="flat", textvariable=self.var_temp, bg="#eee",from_= 25 , to = 40)
         self.champ_temp.pack(expand=1, fill="x", ipadx=5, ipady=5)
 
         lb = Label(frame_left, text="Groupe sanguin", font=FONT, bg="#fff", fg="gray75")
@@ -66,7 +66,6 @@ class Consultation(Toplevel):
 
     def continuer(self):
         all_is_valide = verify(self.champs_list) 
-        
         if all_is_valide:
             date_time = tm.strftime("%d/%m/%Y %H:%M:%S")
 
