@@ -22,11 +22,17 @@ def verify(liste):
     all_is_valide = True
     for e in liste:
         if len(e.get().strip()) < 1:
-            e.config(bg="red")
+            try:
+                e.config(bg="red")
+            except Exception:
+                pass
             e.master.bell()
             all_is_valide = False
         else:
-            e.config(bg="#fff")
+            try:
+                e.config(bg="#fff")
+            except Exception:
+                pass
     return all_is_valide
 
 
