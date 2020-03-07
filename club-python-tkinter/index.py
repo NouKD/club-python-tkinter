@@ -29,19 +29,19 @@ class MyWindow:
         self.frame_home.grid(row=0, pady=20, padx=20)
 
         # frame secondaire pour les patient ayant un compte
-        self.frame_account = Frame(
-            self.frame_principale, pady=10, width=200, height=200)
+        self.frame_account = Frame(self.frame_principale, pady=10, width=200, height=200)
         self.frame_account.grid(row=0, column=1)
 
         label_nom = Label(self.frame_home, text="nom", font=FONT,
-                          relief="flat", bg="powderblue", fg="black")
-        self.entry_nom = Entry(self.frame_home,  font=FONT,
-                               relief="flat", bd=5, bg="#eee", )
+        relief="flat", bg="powderblue", fg="black")
+
+        self.entry_nom = Entry(self.frame_home,font=FONT,
+        relief="flat", bd=5, bg="#eee", )
 
         label_prenom = Label(self.frame_home, text="prenom",
-                             font=FONT, relief="flat", bg="powderblue", fg="black")
-        self.entry_prenom = Entry(
-            self.frame_home,  font=FONT, relief="flat", bd=5, bg="#eee")
+        font=FONT, relief="flat", bg="powderblue", fg="black")
+
+        self.entry_prenom = Entry(self.frame_home,  font=FONT, relief="flat", bd=5, bg="#eee")
 
         label_age = Label(self.frame_home, text="age", font=FONT,
                           relief="flat", bg="powderblue", fg="black")
@@ -112,7 +112,7 @@ class MyWindow:
         self.entry_cree.grid(row=1, column=1, sticky="nsew", padx=10, pady=5)
         button_ok.grid(row=2, column=1, sticky="nsew", padx=10, pady=5)
         label_id.grid(row=3, column=1, sticky="nsew", padx=10, pady=5)
-        self.services_desc(5)
+        #self.services_desc(5)
         self.menu()
         self.root.mainloop()
 
@@ -127,12 +127,12 @@ class MyWindow:
                 validate = False
             else:
                 validate = True
-                
+
         if not values[2].isdigit():
             validate = False
             self.entry_age["bg"] = "red"
             self.root.after(2000, lambda col="#fff": self.entry_age.config(bg=col))
-            
+
 
         if validate:
             self.mydb.setPatient(values)
@@ -143,7 +143,7 @@ class MyWindow:
             values = (patient[0], date, 1)
             self.mydb.setCompte(values)
             compte = self.mydb.getOne("compte", "date", date)
-            
+
             self.services_desc(compte[0])
 
 
@@ -161,6 +161,7 @@ class MyWindow:
 
     def change(self, *_):
         choix = self.service_var.get()
+        self.services = self.mydb.getAll("service")
         liste = [item for item in self.services if choix in item][0]
         self.batiment["text"] = liste[3]
         self.desc["text"] = liste[2]
@@ -185,6 +186,7 @@ class MyWindow:
         self.cham_serv = ttk.Combobox(self.frame_service, state="readonly",
                                       justify="center", textvariable=self.service_var, font=FONT2)
         self.cham_serv.pack(expand=1, fill="x")
+        self.services = self.mydb.getAll("service")
         valeurs = [item[1] for item in self.services]
         self.cham_serv['values'] = valeurs
         self.service_var.trace("w", self.change)
@@ -208,11 +210,12 @@ class MyWindow:
 
     def continuer(self, comp, b):
         choix = self.service_var.get()
+        self.services = self.mydb.getAll("service")
         liste = [item for item in self.services if choix in item][0]
         service = liste[0]
         attribuerMedecin(b, comp, service)
 
-        
+
 
     def menu(self):
         # Menu principale
@@ -241,20 +244,20 @@ class AddService(Toplevel):
         x, y = int((self.winfo_screenwidth()/2)-275), int((self.winfo_screenheight()/2)-120)
         self.geometry("550x240+{0}+{1}".format(x, y))
         self.resizable(0,0)
-        
+
         self.mydb = DataBase()
-        
+
         frm1 = Frame(self)
         frm1.pack(expand=1, fill="both")
-        
+
         frm2 = Frame(self)
         frm2.pack(expand=1, fill="both")
-        
+
         cadre1 = Frame(frm1)
         cadre1.pack(expand=1, fill="both", side="left", padx="5 0", pady=5, ipadx=5, ipady=5)
         cadre2 = Frame(frm1)
         cadre2.pack(expand=1, fill="both", side="right", padx="0 5", pady=5, ipadx=5, ipady=5)
-        
+
         lb1 = Label(cadre1, text="Nom: ",anchor="w", font=FONT, bg="#eee", fg="grey")
         lb1.pack(expand=1, fill="both", padx=5, pady="5 0", ipady=5, ipadx=5)
         self.nom = Entry(cadre1, font=FONT, bg="#fff", fg="#000")
