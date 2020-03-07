@@ -22,7 +22,6 @@ def new_medecin():
         mydb.setMedecin(values)
         [e.delete(0, "end") for e in cham]
 
-
     master = Tk()
     master.title("Enregistrement Medecin")
     master.geometry("392x312")
@@ -75,8 +74,15 @@ def new_medecin():
     master.mainloop()
 
 
-def attribuerMedecin(destroyThis, compte, service):
+def attribuerMedecin(destroyThis, id_patient, service):
     destroyThis.destroy()
     mydb = DataBase()
     medecin = mydb.getOneById("medecin", service, "specialite_id")
-    Consultation(compte, medecin[0])
+    if medecin:
+        medecin = medecin[0]
+    else:
+        medecin = None
+    Consultation(id_patient, medecin)
+
+if __name__ == "__main__":
+    new_medecin()

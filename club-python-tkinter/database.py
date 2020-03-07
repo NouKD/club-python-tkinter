@@ -22,12 +22,12 @@ def verify(liste):
     all_is_valide = True
     for e in liste:
         if len(e.get().strip()) < 1:
+            all_is_valide = False
             try:
+                e.master.bell()
                 e.config(bg="red")
             except Exception:
-                pass
-            e.master.bell()
-            all_is_valide = False
+                continue
         else:
             try:
                 e.config(bg="#fff")
@@ -45,10 +45,10 @@ class DataBase():
         # Si [ la base de donnees existe deja une exception sera leve]
         try:
             self.cursor.execute(
-                "CREATE TABLE patient(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, prenom TEXT, age INTEGER, contact TEXT, adresse TEXT, referent TEXT, date TEXT)")
+                "CREATE TABLE patient(id TEXT, nom TEXT, prenom TEXT, age INTEGER, contact TEXT, adresse TEXT, referent TEXT, date TEXT)")
             self.connector.commit()
             self.cursor.execute(
-                "CREATE TABLE compte(id INTEGER PRIMARY KEY AUTOINCREMENT, patient_id INTEGER, date TEXT, actif INTEGER)")
+                "CREATE TABLE compte(id INTEGER PRIMARY KEY AUTOINCREMENT, patient_id TEXT, date TEXT, actif INTEGER)")
             self.connector.commit()
             self.cursor.execute(
                 "CREATE TABLE service(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, description TEXT, batiment TEXT)")
@@ -57,7 +57,7 @@ class DataBase():
                 "CREATE TABLE medecin(id INTEGER PRIMARY KEY AUTOINCREMENT, nom TEXT, prenom TEXT, specialite_id INTEGER, adresse TEXT, contact TEXT)")
             self.connector.commit()
             self.cursor.execute(
-                "CREATE TABLE consultation(id INTEGER PRIMARY KEY AUTOINCREMENT, patient_id INTEGER, medecin_id INTEGER, date TEXT, taille REAL, temperature INTEGER, group_sang TEXT, diagnostic TEXT)")
+                "CREATE TABLE consultation(id INTEGER PRIMARY KEY AUTOINCREMENT, patient_id TEXT, medecin_id INTEGER, date TEXT, taille REAL, temperature INTEGER, group_sang TEXT, diagnostic TEXT)")
             self.connector.commit()
             self.cursor.execute(
                 "CREATE TABLE examen(id INTEGER PRIMARY KEY AUTOINCREMENT, consultation_id INTEGER, resultat TEXT, type TEXT, date TEXT)")
@@ -84,7 +84,7 @@ class DataBase():
 
     def setPatient(self, values):
         self.cursor.execute(
-            "INSERT INTO patient(nom, prenom, age, contact, adresse, referent, date) VALUES(?,?,?,?,?,?,?)", values)
+            "INSERT INTO patient(id, nom, prenom, age, contact, adresse, referent, date) VALUES(?,?,?,?,?,?,?,?)", values)
         self.connector.commit()
 
     def setCompte(self, values):
@@ -170,3 +170,8 @@ class DataBase():
         query = 'SELECT p.nom, p.prenom, s.nom, m.nom, m.prenom, c.date, e.id, c.id, p.id FROM patient as p, medecin as m, examen as e, service as s, consultation as c WHERE c.medecin_id=m.id AND c.patient_id=p.id AND e.consultation_id=c.id AND c.date=e.date AND m.specialite_id=s.id AND c.medecin_id=s.id GROUP BY c.date ORDER BY p.nom'
         self.cursor.execute(query)
         return self.cursor.fetchall()
+
+    def recuva(self, nom, contact):
+        query = 'SELECT id FROM patient WHERE nom="{0}" AND contact="{1}"'.format(nom, contact)
+        self.cursor.execute(query)
+        return self.cursor.fetchone()
