@@ -34,20 +34,21 @@ class Consultation(Toplevel):
         lb = Label(frame_left, text="Taille", font=FONT, bg="#c7e0f7", fg="#05f")
         lb.pack(expand=1, fill="x", ipadx=5, ipady=5)
         self.var_taille = StringVar()
-        self.champ_taille = Entry(frame_left, font=FONT, relief="sunken", textvariable=self.var_taille, bg="#eee")
+        self.champ_taille = Entry(frame_left, font=FONT, relief="sunken", textvariable=self.var_taille, bg="#eee", justify="center")
         self.champ_taille.pack(expand=1, fill="x", ipadx=5, ipady=5)
 
         lb = Label(frame_left, text="Temperature", font=FONT, bg="#c7e0f7", fg="#05f")
         lb.pack(expand=1, fill="x", ipadx=5, ipady=5, pady="5 0")
         self.var_temp = StringVar()
-        self.champ_temp = Spinbox(frame_left, font=FONT, relief="flat", textvariable=self.var_temp, bg="#eee",from_= 25 , to = 40)
+        self.champ_temp = Spinbox(frame_left, state="readonly", justify="center", font=FONT, relief="flat", textvariable=self.var_temp, bg="#eee",from_=20 , to = 40)
         self.champ_temp.pack(expand=1, fill="x", ipadx=5, ipady=5)
 
         lb = Label(frame_left, text="Group sanguin", font=FONT, bg="#c7e0f7", fg="#05f")
         lb.pack(expand=1, fill="x", ipadx=5, ipady=5, pady="5 0")
         self.var_grpsang = StringVar()
-        self.champ_grpsang = Combobox(frame_left, font=FONT, textvariable=self.var_grpsang, values =["A","A+","A-","B","B+","B-","AB","AB+","AB-","O","O+","O-"])
+        self.champ_grpsang = Combobox(frame_left, font=FONT, justify="center", state="readonly", textvariable=self.var_grpsang, values =["A","A+","A-","B","B+","B-","AB","AB+","AB-","O","O+","O-"])
         self.champ_grpsang.pack(expand=1, fill="x", ipadx=5, ipady=5)
+        self.var_grpsang.set("A+")
 
         lb = Label(frame_right, text="Diagnostique", font=FONT, bg="#c7e0f7", fg="#05f")
         lb.pack(expand=1, fill="x", ipadx=5, ipady=5)
@@ -65,10 +66,16 @@ class Consultation(Toplevel):
         self.champs_list = [self.champ_taille, self.champ_temp, self.champ_grpsang]
 
     def continuer(self):
-        all_is_valide = verify(self.champs_list) 
+        all_is_valide = verify(self.champs_list)
         if all_is_valide:
+            if float(self.var_taille.get()) < 0.1 or float(self.var_taille.get()) > 2.55:
+                self.champ_taille["bg"] = "red"
+                self.bell()
+                return
+            else:
+                self.champ_taille["bg"] = "#fff"
+            
             date_time = tm.strftime("%d/%m/%Y %H:%M:%S")
-
             values = tuple([self.id_patient, self.id_medecin, date_time] + [value.get().strip() for value in self.champs_list] + [self.champ_diagn.get(index1="1.0", index2="end")])
             self.mydb.setConsultation(values)
             info = self.mydb.getOne("consultation", "date", date_time)

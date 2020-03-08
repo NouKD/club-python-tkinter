@@ -50,8 +50,5 @@ class Examen(tk.Toplevel):
         Ordonnance(self.consultation, self)
 
 
-
-
-
 if __name__ == "__main__":
     Examen().mainloop()

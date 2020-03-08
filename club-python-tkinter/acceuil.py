@@ -16,9 +16,9 @@ class PageAcceuil(Tk):
         FONT = "Arial 14 bold"
 
         self.title("* ACCEUILL *")
-
-        self.geometry("1080x720")
-        self.minsize(480, 360)
+        self.attributes('-zoomed', 1)
+        #self.attributes('-fullscreen', True)
+        self.resizable(0,0)
         self.config(background='#bdebdf')
 
         txt = "Bienvenu au centre MedicoNanien !"

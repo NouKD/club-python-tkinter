@@ -42,74 +42,68 @@ class MyWindow:
         self.frame_account = Frame(self.frame_principale, pady=10, width=200, height=200)
         self.frame_account.grid(row=1, column=1)
 
-        label_nom = Label(self.frame_home, text="nom", font=FONT,
-        relief="flat", bg="powderblue", fg="black")
+        label_nom = Label(self.frame_home, text="Nom", font=FONT, relief="flat", bg="powderblue", fg="#05f")
 
-        self.entry_nom = Entry(self.frame_home,font=FONT,
-        relief="flat", bd=5, bg="#eee", )
+        self.entry_nom = Entry(self.frame_home,font=FONT, relief="ridge", bd=2, bg="#eee", )
 
-        label_prenom = Label(self.frame_home, text="prenom",
-        font=FONT, relief="flat", bg="powderblue", fg="black")
+        label_prenom = Label(self.frame_home, text="Prenom", font=FONT, relief="flat", bg="powderblue", fg="#05f")
 
-        self.entry_prenom = Entry(self.frame_home,  font=FONT, relief="flat", bd=5, bg="#eee")
+        self.entry_prenom = Entry(self.frame_home,  font=FONT, relief="ridge", bd=2, bg="#eee")
 
-        label_age = Label(self.frame_home, text="age", font=FONT, relief="flat", bg="powderblue", fg="black")
-        self.entry_age = Entry(self.frame_home,  font=FONT, relief="flat", bd=5, bg="#eee")
+        label_age = Label(self.frame_home, text="Age", font=FONT, relief="flat", bg="powderblue", fg="#05f")
+        self.entry_age = Entry(self.frame_home,  font=FONT, relief="ridge", bd=2, bg="#eee")
 
-        label_contact = Label(self.frame_home, text="contact", font=FONT, relief="flat", bg="powderblue", fg="black")
-        self.entry_contact = Entry(self.frame_home,  font=FONT, relief="flat", bd=5, bg="#eee")
+        label_contact = Label(self.frame_home, text="Contact", font=FONT, relief="flat", bg="powderblue", fg="#05f")
+        self.entry_contact = Entry(self.frame_home,  font=FONT, relief="ridge", bd=2, bg="#eee")
 
         # address
-        label_address = Label(self.frame_home, text="address", font=FONT, relief="flat", bg="powderblue", fg="black")
-        self.entry_address = Entry(self.frame_home,  font=FONT, relief="flat", bd=5, bg="#eee")
+        label_address = Label(self.frame_home, text="Address", font=FONT, relief="flat", bg="powderblue", fg="#05f")
+        self.entry_address = Entry(self.frame_home,  font=FONT, relief="ridge", bd=2, bg="#eee")
 
         # reference
-        label_reference = Label(self.frame_home, text="En cas d'urgence", font=FONT, relief="flat", bg="powderblue", fg="black")
-        self.entry_reference = Entry(self.frame_home,  font=FONT, relief="flat", bd=5, bg="#eee")
+        label_reference = Label(self.frame_home, text="En cas d'urgence", font=FONT, relief="flat", bg="powderblue", fg="#05f")
+        self.entry_reference = Entry(self.frame_home,  font=FONT, relief="ridge", bd=2, bg="#eee")
 
         # envoyer
-        envoyer_btn = Button(self.frame_home, text="Envoyer",  font=FONT, relief="flat", bd=5, bg="#eee", command=self.insert_db)
+        envoyer_btn = Button(self.frame_home, text="Envoyer",  font=FONT, relief="flat", bg="#eee", command=self.insert_db)
 
         # label_compte
-        label_compte = Label(self.frame_account, text="Déjà un compte?  Entrez votre id", fg="#000", font=('', 14))
+        label_compte = Label(self.frame_account, text="Déjà un compte?  Entrez votre id", fg="#000", font="Arial 10 bold")
 
-        self.entry_cree = Entry(self.frame_account, text="compte", font=FONT, relief="flat", bg="#eee", fg="black")
+        self.entry_cree = Entry(self.frame_account, font=FONT, relief="ridge", bd=2, bg="#eee", fg="black")
         self.label_id_var = StringVar()
         self.label_id_var.trace("w", self.fetch_id)
-        label_id = Label(self.frame_account, textvariable=self.label_id_var, fg="#000", font=('', 14), wraplength=200)
+        label_id = Label(self.frame_account, textvariable=self.label_id_var, fg="#000", font=('', 14), wraplength=250)
 
-        button_ok = Button(self.frame_account, text="OK", command=self.fetch_id, font=FONT, relief="flat", bd=5, bg="#eee", width=10)
+        button_ok = Button(self.frame_account, text="OK", command=self.fetch_id, font=FONT, relief="flat", bg="#eee", width=10)
         recuv = Button(self.frame_account, relief="flat", text="Mot de passe oublie ?", font="Arial 9 bold", fg="#05f", command=Password)
         # affichage
-        label_nom.grid(row=0, column=0, sticky="nsew", padx=10, pady=5)
-        self.entry_nom.grid(row=1, column=0, sticky="nsew", padx=10, pady=5)
+        label_nom.grid(row=0, column=0, sticky="nsew", padx=10, pady="5 0", ipady=5)
+        self.entry_nom.grid(row=1, column=0, sticky="nsew", padx=10, pady="0 5", ipady=5)
 
-        label_prenom.grid(row=0, column=1, sticky="nsew", padx=10, pady=5)
-        self.entry_prenom.grid(row=1, column=1, sticky="nsew", padx=10, pady=5)
+        label_prenom.grid(row=0, column=1, sticky="nsew", padx=10, pady="5 0", ipady=5)
+        self.entry_prenom.grid(row=1, column=1, sticky="nsew", padx=10, pady="0 5", ipady=5)
 
-        label_age.grid(row=0, column=2, sticky="nsew", padx=10, pady=5)
-        self.entry_age.grid(row=1, column=2, sticky="nsew", padx=10, pady=5)
+        label_age.grid(row=0, column=2, sticky="nsew", padx=10, pady="5 0", ipady=5)
+        self.entry_age.grid(row=1, column=2, sticky="nsew", padx=10, pady="0 5", ipady=5)
 
-        label_contact.grid(row=2, column=0, sticky="nsew", padx=10, pady=5)
-        self.entry_contact.grid(
-            row=3, column=0, sticky="nsew", padx=10, pady=5)
+        label_contact.grid(row=2, column=0, sticky="nsew", padx=10, pady="5 0", ipady=5)
+        self.entry_contact.grid(row=3, column=0, sticky="nsew", padx=10, pady="0 5", ipady=5)
 
-        label_address.grid(row=2, column=1, sticky="nsew", padx=10, pady=5)
-        self.entry_address.grid(
-            row=3, column=1, sticky="nsew", padx=10, pady=5)
+        label_address.grid(row=2, column=1, sticky="nsew", padx=10, pady="5 0", ipady=5)
+        self.entry_address.grid(row=3, column=1, sticky="nsew", padx=10, pady="0 5", ipady=5)
 
-        label_reference.grid(row=2, column=2, sticky="nsew", padx=10, pady=5)
-        self.entry_reference.grid(
-            row=3, column=2, sticky="nsew", padx=10, pady=5)
+        label_reference.grid(row=2, column=2, sticky="nsew", padx=10, pady="5 0", ipady=5)
+        self.entry_reference.grid(row=3, column=2, sticky="nsew", padx=10, pady="0 5", ipady=5)
 
         envoyer_btn.grid(row=4, column=1,  sticky="nsew", padx=10, pady=5)
 
-        label_compte.grid(row=0, column=1, sticky="nsew", padx=10, pady=5)
+        label_compte.grid(row=0, column=1, sticky="nsew", padx=10, pady="5 0", ipady=5)
 
         self.entry_cree.grid(row=1, column=1, sticky="nsew", padx=10, pady=5)
         button_ok.grid(row=2, column=1, sticky="nsew", padx=10, pady=5)
         recuv.grid(row=4, column=1, ipadx=5, ipady=5)
-        label_id.grid(row=3, column=1, sticky="nsew", padx=10, pady=5)
+        label_id.grid(row=3, column=1, sticky="nsew", padx=10, pady="5 0", ipady=5)
 
         self.menu()
         self.root.mainloop()
@@ -173,8 +167,8 @@ class MyWindow:
         self.nos_service.title("Service | id: {}".format(cmpt))
         x, y = int((self.root.winfo_screenwidth()/2) - 216), int((self.root.winfo_screenheight()/2)-127)
         self.nos_service.geometry("432x280+{0}+{1}".format(x, y))
-        self.nos_service.config(relief="flat", bd=5, bg="#eee")
-        self.frame_service = Frame(self.nos_service, relief="flat", bd=5, bg="#888")
+        self.nos_service.config(relief="flat", bg="#eee")
+        self.frame_service = Frame(self.nos_service, relief="flat", bg="#888")
         self.frame_service.pack(expand=1, fill="both", pady=10)
 
         FONT2 = "Arial 12 normal"
@@ -278,7 +272,7 @@ class AddService(Toplevel):
 
         lb = Label(cadre2, text="Description:", font=FONT, bg="#eee", fg="grey")
         lb.pack(expand=1, fill="both", ipady=5, padx=5, pady="5 0")
-        self.description = Text(cadre2, font=FONT, relief="flat", height=5, bd=5, bg="#fff")
+        self.description = Text(cadre2, font=FONT, relief="flat", height=5, bg="#fff")
         self.description.pack(expand=1, fill="both", padx=5)
 
         btn_cadre = Frame(frm2)
