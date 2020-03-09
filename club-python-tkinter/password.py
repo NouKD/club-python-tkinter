@@ -13,7 +13,7 @@ class Password(tk.Toplevel):
         self.geometry("248x280")
         self.resizable(0, 0)
         self.sizefrom(who="user")
-        self.title("Mot de passe oublie")
+        self.title("Recuperation d'identifiant")
         self.configure(background="#fff")
         self.mydb = DataBase()
 

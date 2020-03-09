@@ -23,7 +23,7 @@ class PageAcceuil(Tk):
 
         txt = "Bienvenu au centre MedicoNanien !"
 
-        img = PhotoImage(file="./club-python-tkinter/img.png", width=1000, height=300)
+        img = PhotoImage(file="img.png", width=1000, height=300)
 
         Label_title = Label(self, text=txt, image=img, compound="bottom", bd=1, font="Arial 55 bold", bg="#aee0f3", fg='#fff', relief='sunken')
         Label_title.pack(expand=1, ipadx=10, ipady=10)

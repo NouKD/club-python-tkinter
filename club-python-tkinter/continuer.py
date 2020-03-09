@@ -76,7 +76,7 @@ class MyWindow:
         label_id = Label(self.frame_account, textvariable=self.label_id_var, fg="#000", font=('', 14), wraplength=250)
 
         button_ok = Button(self.frame_account, text="OK", command=self.fetch_id, font=FONT, relief="flat", bg="#eee", width=10)
-        recuv = Button(self.frame_account, relief="flat", text="Mot de passe oublie ?", font="Arial 9 bold", fg="#05f", command=Password)
+        recuv = Button(self.frame_account, relief="flat", text="Identifiant oublie ?", font="Arial 9 bold", fg="#05f", command=Password)
         # affichage
         label_nom.grid(row=0, column=0, sticky="nsew", padx=10, pady="5 0", ipady=5)
         self.entry_nom.grid(row=1, column=0, sticky="nsew", padx=10, pady="0 5", ipady=5)
